@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DataController extends Controller
+class StocksController extends Controller
 {
     public function index(){
-        $url = 'http://89.108.115.241:6969/api/stocks';
 
         $result = file_get_contents('http://89.108.115.241:6969/api/stocks?dateTo=&page=1&key=E6kUTYrYwZq2tN4QEtyzsbEBk3ie&limit=100&dateFrom=2024-12-23');
 
-        $sqlCreate = "create table if not exists data (";
+        $sqlCreate = "create table if not exists stocks (";
         $data = json_decode($result,true)['data'][0];
         foreach ($data as $key => $value) {
             if(is_numeric($value)){
@@ -32,7 +31,7 @@ class DataController extends Controller
 
         $allData = json_decode($result,true)['data'];
         foreach ($allData as $key => $smallData) {
-            $sqlInsert = 'insert into data (';
+            $sqlInsert = 'insert into stocks (';
             foreach ($smallData as $key => $value) {
                 $sqlInsert .= $key.',';
             }
@@ -50,6 +49,6 @@ class DataController extends Controller
 
             DB::insert($sqlInsert, $insertArray);
         }
-        return $sqlInsert;
+        return 'STOCKS SUCCESS';
     }
 }
