@@ -8,7 +8,7 @@
 
 Данные от базы данных:
 
-Host: sql7.freesqldatabase.com \n
+Host: sql7.freesqldatabase.com
 Database name: sql7753777
 Database user: sql7753777
 Database password: 8s7V89TtGp
