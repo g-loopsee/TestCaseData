@@ -9,8 +9,10 @@ class StocksController extends Controller
 {
     public function index(){
 
-        $result = file_get_contents('http://89.108.115.241:6969/api/stocks?dateTo=&page=1&key=E6kUTYrYwZq2tN4QEtyzsbEBk3ie&limit=100&dateFrom=2024-12-23');
-
+        $dateFrom = date('Y-m-d');
+        $dateTo = date('Y-m-d', strtotime('+1 day'));
+        $result = file_get_contents("http://89.108.115.241:6969/api/stocks?dateTo=$dateTo&page=1&key=E6kUTYrYwZq2tN4QEtyzsbEBk3ie&limit=100&dateFrom=$dateFrom");
+        DB::unprepared('drop table if exists stocks');
         $sqlCreate = "create table if not exists stocks (";
         $data = json_decode($result,true)['data'][0];
         foreach ($data as $key => $value) {

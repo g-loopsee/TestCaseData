@@ -9,8 +9,12 @@ class SalesController extends Controller
 {
     public function index(){
 
-        $result = file_get_contents('http://89.108.115.241:6969/api/sales?dateFrom=2024-01-23&dateTo=2025-12-30&page=1&key=E6kUTYrYwZq2tN4QEtyzsbEBk3ie&limit=100');
+        $dateFrom = date('Y-m-d', strtotime('-100 day'));
+        $dateTo = date('Y-m-d', strtotime('+100 day'));
 
+        $result = file_get_contents("http://89.108.115.241:6969/api/sales?dateFrom=$dateFrom&dateTo=$dateTo&page=1&key=E6kUTYrYwZq2tN4QEtyzsbEBk3ie&limit=100");
+
+        DB::unprepared('drop table if exists sales');
         $sqlCreate = 'create table if not exists sales (';
 
         $data = json_decode($result,true)['data'][0];
